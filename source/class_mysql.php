@@ -214,7 +214,7 @@ class dbstuff {
 	function halt($message = '', $sql = '') {
 		$dberror = $this->error();
 		$dberrno = $this->errno();
-		$help_link = "http://faq.sylai.com/?type=mysql&dberrno=".rawurlencode($dberrno)."&dberror=".rawurlencode($dberror);
+		$help_link = "http://www.paoyingcpi.com/?type=mysql&dberrno=".rawurlencode($dberrno)."&dberror=".rawurlencode($dberror);
 		echo "<div style=\"position:absolute;font-size:11px;font-family:verdana,arial;background:#EBEBEB;padding:0.5em;\">
 				<b>MySQL Error</b><br>
 				<b>Message</b>: $message<br>
