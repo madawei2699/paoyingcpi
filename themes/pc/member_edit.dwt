@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/form.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/jquery_cbox.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.colorbox-min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/jquery.upload.js" type="text/javascript"></script>
+<script src="{$template_path}/script/utils.min.js" type="text/javascript"></script>
+</head>
+<body>
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+
+<!--container start-->
+<div class="container" id="main">
+	<div class="containerBox">
+		<div class="boxHeader">
+			<h2>&nbsp;&nbsp;</h2>
+		</div>
+		<div class="content">
+			<div class="newTips"> <a href=""> <span id="newMsgNum">0</span>条新消息，点击查看 </a> </div>
+			<!--right-->
+			
+			<div class="containerBox boxIndex">
+				<div class="rn-box check-box" style="display: block;">
+					<form id="form-editmember">
+						<div class="frm">
+							<div class="frm-hd">
+								<h3 class="frm-t">编辑客服的资料</h3>
+								<p class="frm-tip"> </p>
+								<p></p>
+							</div>
+							<div class="frm-nav">
+								<div id="regKindBody">
+									<div class="frm-bd mp-reg-person">
+										<div class="frm-section">
+											<div class="section-bd">
+												<div class="group frm-control-group extra" id="mobile_group">
+													<label select="option" class="frm-control-label" for="">手机号</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="mobile" name="mobile" value="{$profile.mobile}">
+														<span id="mobile_notice" class="desc">&nbsp;</span> </div>
+												</div>											
+												<div class="group frm-control-group extra" id="name_group">
+													<label select="option" class="frm-control-label" for="">姓名</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="fullname" name="fullname" value="{$profile.fullname}">
+														<span id="fullname_notice" class="desc">如果名字包含分隔号“·”，请勿省略。</span> </div>
+												</div>
+												
+												<div class="group frm-control-group extra" id="password_group">
+													<label select="option" class="frm-control-label" for="">子系统密码</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="password" name="password" value="">
+														<span id="password_notice" class="desc">用于扩展功能，可以不填</span> </div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="frm-ft">
+									<div class="frm-opr"> <a class="btnGreen" id="form-submit" href="javascript:;">确认修改</a>&nbsp;&nbsp;<a class="btnGray" id="delete-member" href="javascript:;">删除客服</a>
+										<input type="hidden" name="backurl" value="{$backurl}" />
+										<input type="hidden" name="_submit" id="_submit" value="submit" />
+										<input type="hidden" id="uid" name="uid" value="{$profile.uid}" />
+										<input type="hidden" name="formhash" value="{$formhash}" />
+										<input type="hidden" name="ac" value="editmember" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--end right-->
+		
+		<div class="sideBar">
+			<div class="catalogList">
+				<ul class="shaixuan">
+					<li class=""> <a href="member.php">客服管理</a> </li>
+					<li class=""> <a href="member.php?ac=add">添加客服</a> </li>
+				</ul>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</div>
+</div>
+<!--container end--> 
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end--> 
+
+<script>
+$('#form-submit').click(function(){
+if(check_submit()){
+$('#form-editmember').attr('method','post');
+$('#form-editmember').attr('action','member.php');
+$('#form-editmember').submit();
+}
+});
+
+function check_submit()
+{
+    var submit_disabled = false;
+
+
+
+	if(!check_fullname()){
+	  submit_disabled = true;
+	}
+
+	if(!check_mobile()){
+	  submit_disabled = true;
+	}
+	
+	if(!check_pwd()){
+	  submit_disabled = true;	
+	}
+	
+    if ( submit_disabled )
+    {
+        return false;
+    }
+	else{
+        return true;
+	}	
+}
+
+function check_fullname(){
+  fullname=$('#fullname').val();
+  if ( fullname.length < 2)
+  {
+        $('#fullname_notice').html('姓名不能少于2个字');
+		$('#fullname').focus();
+		return false;
+  }else if(fullname.length>15 )
+  {
+        $('#fullname_notice').html('姓名不能多于15个字');
+		$('#fullname').focus();
+		return false;
+  }
+  else
+  {
+      $('#fullname_notice').html('OK');
+      return true;
+  }
+}
+
+function check_pwd(){
+  pass=$('#password').val();
+  if(pass.length>0 &&	pass.length<6){
+	$('#password_notice').html('密码不能少于6位个字');
+    $('#password').focus();
+	return false;  
+  }else if(pass.length>15){
+	$('#password_notice').html('密码不能多于15位个字');
+    $('#password').focus();
+  }else{
+    $('#password_notice').html('OK');
+    return true;
+  }
+	
+}
+
+function check_mobile(){
+  mobile=$('#mobile').val();
+  if (mobile == '')
+  {
+    $('#mobile_notice').html("手机号不能为空");
+    $('#mobile').focus();
+    return false;
+  }
+  else if (!Utils.isMobile(mobile))
+  {
+    $('#mobile_notice').html("请按手机格式填写");
+    $('#mobile').focus();
+    return false;
+  }
+  else
+  {
+      $('#mobile_notice').html('OK');
+      return true;
+  }
+}
+
+$('#delete-member').click(function(){
+	if(confirm('确定要删除这位客服吗?')){
+	   $.post('member.php',{ac:'delmember',uid:$('#uid').val()},function(){
+		   window.location.href='member.php';
+	   });
+	}
+	
+});
+
+</script>
+</body>
+</html>

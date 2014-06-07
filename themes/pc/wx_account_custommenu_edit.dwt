@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<link href="{$template_path}/css/form.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="{$template_path}/script/utils.min.js" type="text/javascript"></script>
+</head>
+<body>
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+
+<!--container start-->
+<div class="container" id="main">
+	<div class="containerBox">
+		<div class="boxHeader">
+			<h2>&nbsp;&nbsp;</h2>
+		</div>
+		<div class="content">
+			<div class="newTips"> <a href=""> <span id="newMsgNum">0</span>条新消息，点击查看 </a> </div>
+			<div class="containerBox boxIndex">
+				<div class="rn-box check-box" style="display: block;">
+					<form id="form-addprofile">
+						<div class="frm">
+							<div class="frm-hd">
+							    {if $btn.parent_id gt 0}
+								  <h3 class="frm-t">编辑自定义菜单子按钮</h3>
+								{else}
+								  <h3 class="frm-t">编辑自定义菜单按钮</h3>
+								{/if}
+								<p class="frm-tip"> </p>
+								<p></p>
+							</div>
+							<div class="frm-nav">
+								<div id="regKindBody">
+									<div class="frm-bd mp-reg-person">
+										<div class="frm-section">
+											<div class="section-bd">
+											
+											
+												<div class="group frm-control-group extra" id="sort_order_group">
+													<label select="option" class="frm-control-label" for="">显示顺序</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="sort_order" name="sort_order" value="{$btn.sort_order}">
+														<span id="sort_order_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												<div class="group frm-control-group extra" id="name_group">
+													<label select="option" class="frm-control-label" for="">按钮名称</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="btn_name" name="btn_name" value="{$btn.btn_name}">
+														<span id="btn_name_notice" class="desc">&nbsp;</span> </div>
+												</div>
+
+												<div class="group frm-control-group extra" id="btn_type_group">
+													<label select="option" class="frm-control-label" for="">按钮类型</label>
+													<div class="frm-controls">
+														<select class="frm-controlM"  id="btn_type" name="btn_type">
+														   <option value="1" {if $btn.btn_type eq 1} selected {/if}>触发关键词</option>
+														   <option value="2" {if $btn.btn_type eq 2} selected {/if}>跳转网址</option>
+														</select>
+														<span id="btn_type_notice" class="desc">&nbsp;</span> </div>
+												</div>
+
+
+												<div class="group frm-control-group extra" id="keyword_group">
+													<label select="option" class="frm-control-label" for="">关键词</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="keyword" name="keyword" value="{$btn.keyword}">
+														<span id="keyword_notice" class="desc">&nbsp;</span> </div>
+												</div>
+
+												<div class="group frm-control-group extra" id="url_group">
+													<label select="option" class="frm-control-label" for="">跳转网址</label>
+													<div class="frm-controls">
+														<input type="text" class="frm-controlM" placeholder="" id="url" name="url" value="{$btn.url}">
+														<span id="url_notice" class="desc">&nbsp;</span> </div>
+												</div>
+												
+																								
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="frm-ft">
+									<div class="frm-opr"> <a class="btnGreen" id="form-submit" href="javascript:;">编辑提交</a>
+										<input type="hidden" name="id" value="{$btn.id}" />
+										<input type="hidden" name="wxid" value="{$account.id}" />
+										<input type="hidden" name="backurl" value="{$backurl}" />
+										<input type="hidden" name="_submit" id="_submit" value="submit" />
+										<input type="hidden" name="formhash" value="{$formhash}" />
+										<input type="hidden" name="ac" value="editprofile" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+            <!--sidebar start-->
+            <!-- #BeginLibraryItem "/lib/wx_account_manage_sidebar.lbi" --><!-- #EndLibraryItem -->
+            <!--sideerbar end-->
+		<div class="clr"></div>
+	</div>
+</div>
+<!--container end-->
+
+<div style="height:100px"></div>
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+<script>
+$('#form-submit').click(function(){
+if(check_submit()){
+$('#form-addprofile').attr('method','post');
+$('#form-addprofile').attr('action','wx_custommenu.php');
+$('#form-addprofile').submit();
+}
+});
+
+function check_submit()
+{
+    var submit_disabled = false;
+
+	if(!check_btn_name()){
+	  submit_disabled = true;
+	}
+
+    if ( submit_disabled )
+    {
+        return false;
+    }
+	else{
+        return true;
+	}	
+}
+
+function check_btn_name(){
+  btn_name=$('#btn_name').val();
+  if ( btn_name.length < 1)
+  {
+        $('#btn_name_notice').html('按钮名称不能少于1个字');
+		$('#btn_name').focus();
+		return false;
+  }else if(btn_name.length>20 )
+  {
+        $('#btn_name_notice').html('按钮名称不能多于20个字');
+		$('#btn_name').focus();
+		return false;
+  }
+  else
+  {
+      $('#btn_name_notice').html('OK');
+      return true;
+  }
+}
+
+</script>
+</body>
+</html>

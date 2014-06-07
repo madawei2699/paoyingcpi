@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="{$template_path}/script/utils.min.js"></script>
+</head>
+<body>
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+
+<!--container start-->
+<div class="container-wrapper">
+	<div class="container" id="main">
+		<div class="containerBox">
+			<div style="clear:both;padding-left:30px;padding-right:30px;"> <br />未来这里将显示各项数据统计，开发中... <br /> </div>
+		</div>
+	</div>
+</div>
+<!--container end-->
+
+<div style="height:50px"></div>
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+</body>
+</html>

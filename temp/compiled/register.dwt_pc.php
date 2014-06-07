@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="Generator" content="APPNAME VERSION" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      
+<meta charset="utf-8">      
+<title><?php echo $this->_var['_SC']['site_name']; ?></title>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->_var['template_path']; ?>/css/common2.css">  
+<link rel="stylesheet" type="text/css" href="<?php echo $this->_var['template_path']; ?>/css/form.css">
+<script src="<?php echo $this->_var['template_path']; ?>/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->_var['template_path']; ?>/script/utils.min.js" type="text/javascript"></script>
+  
+</head>    
+<body class="zh_CN realnameRegPage">              
+<div id="header" class="header">     
+<div class="logo_area">       
+<div class="wrapper">         
+<img src="<?php echo $this->_var['template_path']; ?>/images/logo.png" onclick="javascript:location.href='/'" alt="<?php echo $this->_var['_SC']['site_name']; ?>">         
+<span class="hd_login_info">                
+<a href="mailto:service@sylai.com">咨询请发邮件至：service@sylai.com</a>            
+</span>      
+</div>     
+</div>     
+   
+</div>      
+
+<div id="main" class="container">
+<div class="containerBox boxIndex">     
+<div class="rn-reg-t-wrapper group">       
+</div>      
+
+<form id="form-register">
+<div style="display: block;" class="rn-box reg-box">       
+<div class="frm">           
+<div class="frm-bd group">               
+<div class="frm-section l">                 
+<div class="section-bd">                     
+<div id="email_group" class="group frm-control-group extra">                         
+<label for="" class="frm-control-label">邮箱</label>                         
+<div class="frm-controls">                             
+<input id="email" name="email" placeholder="" class="frm-controlM" type="text" onblur="checkform()">                            
+<div class="valid-msg"><p id="email_fail_msg" class="fail-msg"><span class="arrow arrow-out"></span><span class="arrow arrow-in"></span><i>●</i><span class="msg-content">请输入正确的邮箱地址</span></p></div>                             
+<span class="desc" id="email_notice">用来登录<?php echo $this->_var['_SC']['site_name']; ?>，接收到激活邮件才能完成注册</span>                         
+</div>                     
+</div>                     
+
+<div id="pw1_group" class="group frm-control-group">                         
+<label for="" class="frm-control-label">密码</label>                         
+<div class="frm-controls">                             
+<input id="pass1" name="pass1" onpaste="return false" class="frm-controlM" type="password" onblur="checkform()">                             
+<div class="valid-msg"><p class="fail-msg"><span class="arrow arrow-out"></span><span class="arrow arrow-in"></span><i>●</i><span class="msg-content">密码长度不足6位，或者使用了非法字符</span></p></div>                             
+<span class="desc" id="pass1_notice">字母、数字或者英文符号，最短6位，区分大小写</span>                         
+</div>                     </div>                     
+
+<div id="pw2_group" class="group frm-control-group">                         
+<label for="" class="frm-control-label">确认密码</label>                         
+<div class="frm-controls">                             
+<input id="pass2" name="pass2" onpaste="return false" class="frm-controlM" type="password" onblur="checkform()">                             
+<div class="valid-msg"><p class="fail-msg"><span class="arrow arrow-out"></span><span class="arrow arrow-in"></span><i>●</i><span class="msg-content">两次输入的密码不一致</span></p></div>                             
+<span class="desc" id="pass2_notice"></span>                         
+</div>                     
+</div>                    
+
+
+<div class="group frm-control-group extra">                       
+<label for="agree" class="frm-control-checkbox"><input id="agree" name="agree" value="" type="checkbox" checked>我同意并遵守<a href="agreement.php" target="_blank">《<?php echo $this->_var['_SC']['site_name']; ?>服务协议》</a></label>                     
+</div>                 
+</div>               
+</div>               
+               <input type="hidden" name="backurl" value="<?php echo $this->_var['backurl']; ?>" />
+               <input type="hidden" name="_submit" id="_submit" value="submit" />
+               <input type="hidden" name="formhash" value="<?php echo $this->_var['formhash']; ?>" />
+               <input type="hidden" name="ac" value="reg" />
+</form>
+
+
+<div class="frm-tip l">                 
+<p><i>●</i>已有<?php echo $this->_var['_SC']['site_name']; ?>帐号？<a href="/">立即登录</a></p>
+               
+</div>           
+</div>           
+<div class="frm-ft">               
+<div class="tc frm-opr">                   
+<a disable="true" id="reg" href="javascript:;" class="btnGreen">注册</a>               
+</div>           
+</div>       
+</div>     
+</div>      
+
+       
+
+
+</div></div>      
+
+<div style="height:40px;"></div>
+
+
+
+<?php echo $this->fetch('lib/page_footer.lbi'); ?>
+
+<script type="text/javascript">
+$(function(){
+    $('#reg').click(function(){
+	  if(checkform()){	
+        $('#form-register').attr('method','post');
+        $('#form-register').attr('action','register.php');
+        $('#form-register').submit();
+	  }
+	});
+
+});
+
+
+
+function checkform()
+{
+  submit_disabled = false;
+  xieyi=$('#agree').attr('checked');
+  email=$('#email').val();
+  pass1=$('#pass1').val();
+  pass2=$('#pass2').val();
+  if(xieyi != 'checked'){
+	alert('您必须同意<?php echo $this->_var['_SC']['site_name']; ?>服务协议才能注册');  
+  }
+  else if (email == '')
+  {
+    $('#email_notice').html("邮箱不能为空");
+    submit_disabled = true;
+  }
+  else if (!Utils.isEmail(email))
+  {
+    $('#email_notice').html("请填写正确的邮箱");
+    submit_disabled = true;
+  }else{
+  var checkurl = 'register.php';
+  $.ajax({
+         type:'POST',
+	     dataType:'json',
+         url: checkurl,
+         data:'ac=check_email&email='+email,
+         async: false,
+         success:function(json){
+            if ( json.err == 0 )
+            {
+                $('#email_notice').html('可以注册');
+            }
+            else
+            {
+                $('#email_notice').html('该邮箱已经被注册');
+                submit_disabled = true;
+            }
+  }}); 	  
+  }
+  
+  if (pass1.length<6 || pass1.length>15){
+    $('#pass1_notice').html("密码长度错误");
+    submit_disabled = true;
+  }else{
+    $('#pass1_notice').html("OK");
+  }
+  
+  if (pass1 != pass2){
+    $('#pass2_notice').html("两次密码输入不一致");
+    submit_disabled = true;
+  }else{
+    $('#pass2_notice').html("OK");
+  }
+  
+  if (!submit_disabled){
+	 return true;  
+  }else{
+	 return false;  
+  }
+}//end function
+</script>
+</body></html>

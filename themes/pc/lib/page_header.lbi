@@ -1,0 +1,14 @@
+﻿<div class="header" id="header">
+	<div class="logo_area">
+		<div class="wrapper"> <img alt="{$_SC.site_name}" onclick="javascript:location.href='/'" src="{$template_path}/images/logo.png"> <span class="hd_login_info"> <span><a style="padding-right:0;" href="">{$_SGLOBAL.fullname}</a></span> <span class="none"><a href="#">帮助中心</a></span> <span>|<a href="logout.php" >退出</a></span> </span>
+			<div class="logo_notify_list none" id="headNotifyList"> </div>
+		</div>
+	</div>
+	<div class="navigator">
+		<ul class="textLarge">
+			{foreach from=$_SGLOBAL.navmenu item=nav}
+			<li><a href="{$nav.url}">{$nav.title}</a></li>
+			{/foreach}
+		</ul>
+	</div>
+</div>

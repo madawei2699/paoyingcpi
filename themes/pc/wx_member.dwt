@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css"> 
+<link href="{$template_path}/css/table.css" rel="stylesheet" type="text/css"> 
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script> 
+<script type="text/javascript" src="{$template_path}/script/utils.min.js"></script>
+</head>
+<body>
+
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end-->
+
+
+<!--container start-->
+<div class="container-wrapper">
+	<div class="container" id="main">
+		<div class="containerBox">
+			<div class="boxHeader">
+				<h2>会员管理</h2>
+			</div>
+			<div class="content">
+				<div class="newTips"> <a href=""> <span id="newMsgNum">0</span>条新消息，点击查看 </a> </div>
+				<div class="cLine">
+					<h3 class="left" id="msg_title">  </h3>
+					<div class="searchbar right">
+					<!--
+						<select id="search_field" class="txt left" style="height:29px;">
+						<option value="province" selected>地区</option>
+						<option value="content">内容</option>
+						<option value="nickname">会员</option>
+						</select>
+						<input type="text" id="msgSearchInput" class="txt left" value="" placeholder="输入内容搜索">
+						<button id="msgSearchBtn" href="javascript:;" class="btnGrayS left" title="搜索" type="button">搜索</button>					
+					-->
+					</div>
+					<div class="clr"></div>
+				</div>
+			
+			
+				<div class="cLine">
+					<div class="pageNavigator right"> <span> <a class="prePage" href="wx_member.php?page={$members.prepage}"> 上一页 </a> </span> <span class="pageNum">{$members.page} / {$members.pagenum}</span> <span> <a class="nextPage" href="wx_member.php?page={$members.nextpage}"> 下一页 </a> </span> </div>
+				</div>
+	
+			{if $members.total gt 0}
+				<div class="msgWrap">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" class="ListProduct">
+              <thead>
+                <tr>
+				  <th><input type="checkbox"  class="checkall"/></th>
+                  <th>会员名字</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr></tr>
+                
+     {foreach from=$members.list item=m} 
+                <tr>
+				<td style="text-align:center"><input type="checkbox" name="check[]" value="{$m.uid}" /></td>
+			  <td><p><a target="_blank" href="wx_singlemsg.php?wxid={$m.wxid}"><img width="40" height="40" src="{$m.headimg}" onerror="this.src='{$_SC.siteurl}themes/pc/mpres/htmledition/images/default_avator.png'"></a></p><p>{$m.fullname}</p><p>(所属公众号:{$m.weixin_name})</p></td>
+                </tr>
+     {/foreach}                               
+
+              </tbody>
+            </table>
+          </div>
+		  {/if}
+				
+				<div class="cLine">
+					<div class="pageNavigator right"> <span> <a class="prePage" href="wx_member.php?page={$members.prepage}"> 上一页 </a> </span> <span class="pageNum">{$members.page} / {$members.pagenum}</span> <span> <a class="nextPage" href="wx_member.php?page={$members.nextpage}"> 下一页 </a> </span> </div>
+				</div>
+
+				
+			</div>
+			<div class="sideBar">
+				<div class="catalogList">
+					<ul class="shaixuan">
+						<li {if $members.op_wxid eq 0} class="selected" {/if}> <a href="wx_member.php">全部会员</a> </li>
+						{foreach from=$account item=acc}
+						<li {if $members.op_wxid eq $acc.id} class="selected" {/if}> <a href="wx_member.php?op_wxid={$acc.id}">{$acc.weixin_name}</a> </li>
+						{/foreach}
+						<!--
+						<li class=" subCatalogList "> <a href="">今天</a> </li>
+						<li class="  "> <a href="">星标咨询</a> </li>
+					    -->
+					</ul>
+					
+				</div>
+			</div>
+			<div class="clr"></div>
+		</div>
+	</div>
+	<!--container--> 
+</div>
+<!--container end-->
+
+
+
+
+
+
+
+
+
+ 
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+
+<script>
+$(function(){
+				   $('.checkall').click(function(){
+						 if($(this).attr("checked")=='checked'){
+                           $('.msgWrap input[type=checkbox]').attr("checked", true);
+						 }else{
+                           $('.msgWrap input[type=checkbox]').attr("checked", false);
+						 }
+					});
+});
+</script>
+</body></html>

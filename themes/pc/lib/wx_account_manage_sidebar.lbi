@@ -1,0 +1,11 @@
+﻿			<div class="sideBar">
+				<div class="catalogList">
+					<ul class="shaixuan">
+						<li class=""> <a href="wx_account.php?ac=manage&id={$account.id}">功能管理</a> </li>
+						<li class=""> <a href="wx_account_autoreply.php?type=focus&id={$account.id}">被关注时自动回复</a> </li>
+						<li class=""> <a href="wx_account_autoreply.php?type=aftermsg&id={$account.id}">接收消息时自动回复</a> </li>
+						<li class=""> <a href="wx_account_autoreply.php?type=keyword&id={$account.id}">关键词自动回复</a> </li>
+                        <li class=""> <a href="wx_custommenu.php?id={$account.id}">自定义菜单</a> </li>
+					</ul>
+				</div>
+			</div>

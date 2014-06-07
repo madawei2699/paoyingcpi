@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$_SC.site_name}</title>
+<link href="{$template_path}/css/common.css" rel="stylesheet" type="text/css">
+<script src="{$template_path}/script/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="{$template_path}/script/utils.min.js"></script>
+</head>
+<style>
+.msgListItem .replyList {
+    display: none;
+    margin-top: 10px;
+}
+</style>
+<body>
+
+<!--header start-->
+<!-- #BeginLibraryItem "/lib/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--header end--> 
+
+<!--container start-->
+<div class="container-wrapper">
+	<div class="container" id="main" style="width:770px">
+		<div class="containerBox">
+			<div class="boxHeader">
+				<h2>"<span class="msgSender">{$user.nickname}</span>" 的消息</h2>
+			</div>
+			<div class="content">
+				<div class="msgSenderPlugin">
+				  <!--
+					<ul class="tab">
+						<li class="selected chooseMedia chooseMedia1" data-type="1">文字</li>
+						<li class="chooseMedia vioce chooseMedia3" data-type="3">语音</li>
+						<li class="chooseMedia chooseMedia2" data-type="2">图片</li>
+						<li class="chooseMedia chooseMedia4" data-type="4">视频</li>
+						<li class="chooseMedia chooseMedia10" data-type="10">图文消息</li>
+					</ul>
+					<div class="panel">
+						<div class="txtArea">
+							<div class="functionBar">
+								<div class="opt"> <a class="icon18C iconEmotion block" href="javascript:;">表情</a> </div>
+								<div class="tip"> </div>
+								<div class="emotions">
+									<table cellpadding="0" cellspacing="0">
+									</table>
+									<div class="emotionsGif"></div>
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div class="editArea">
+								<textarea style="display: none;"></textarea>
+								<div style="overflow-y: auto; overflow-x: hidden;" contenteditable="true"></div>
+							</div>
+						</div>
+						<div class="mediaArea none"> </div>
+						<div class="none" id="showVerifyCode"> <br>
+							<img src=""> <a href="javascript:;" id="changeVerifyCode">换一张</a>
+							<div> 请输入验证码
+								<input id="imgcode" name="" type="text">
+							</div>
+						</div>
+						<div class="btnArea">
+							<button class="sendMsg btnGreen">发送</button>
+						</div>
+					</div>
+				</div>
+				-->
+				<div class="cLine">
+					<div class="pageNavigator right"> <span> <a class="prePage" href="javascript:;"> 上一页 </a> </span> <span class="pageNum"></span> <span> <a class="nextPage" href="javascript:;"> 下一页 </a> </span> </div>
+				</div>
+
+				
+				<ul id="listContainer">
+				</ul>
+				<div class="cLine">
+					<div class="pageNavigator right"> <span> <a class="prePage" href="javascript:;"> 上一页 </a> </span> <span class="pageNum"></span> <span> <a class="nextPage" href="javascript:;"> 下一页 </a> </span> </div>
+				</div>
+				<input id="list_page" value="0" type="hidden" />
+				<input id="list_pagenum" value="0" type="hidden" />
+				<input type="hidden" id="uid" value="{$user.uid}" />
+			</div>
+			<div class="clr"></div>
+		</div>
+	</div>
+	<!--container--> 
+</div>
+<!--container end--> 
+
+<!--footer start-->
+<!-- #BeginLibraryItem "/lib/page_footer.lbi" --><!-- #EndLibraryItem -->
+<!--footer end-->
+				 <script>
+				 $(function(){
+                     list();
+					 
+					 $('#msgSearchBtn').click(function(){
+                               $('#list_page').val(1);
+							   list();
+                     });
+
+                     $('.prePage').click(function(){
+                               if(parseInt($('#list_page').val())>1){
+                                    $('#list_page').val(parseInt($('#list_page').val())-1);
+	                                list();
+                               }
+                     });
+
+                     $('.nextPage').click(function(){
+                              if(parseInt($('#list_page').val())<parseInt($('#list_pagenum').val())){
+                                    $('#list_page').val(parseInt($('#list_page').val())+1);
+	                                list();
+                              }
+                     });
+					 
+					 
+				 });
+
+
+				 
+	function list(){
+		var data= new Object;
+		data.ac='msg_list';
+		data.uid=$('#uid').val();
+		data.page=$('#list_page').val();
+		data.search_field=$('#search_field').val();	
+		data.search_keyword=$('#msgSearchInput').val();
+	 $.ajax({
+         type:'POST',
+	     dataType:'json',
+         url: 'wx_singlemsg.php',
+         data:data,
+         async: true,
+         success:function(json){
+              var str='';
+	          if(json.total>0){
+	              $(json.list).each(function(i,n){
+
+
+                   str+=''+
+					'<li data-id="'+n.id+'" id="msgListItem'+n.id+'" class="msgListItem buddyRichInfoC " style="z-index: 99999;"> <a class="msgSender left" href=""> <img width="48" height="48" class="avatar left" data-fakeid="'+n.fakeid+'" src="'+n.headimg+'"> </a>'+
+						'<div class="wxMsgArea">'+
+							'<div class="opt oper right"> <a title="快捷回复" class="icon18 iconReply" data-tofakeid="'+n.fakeid+'" data-id="'+n.id+'" href="javascript:;"></a> </div>'+
+							'<div class="opt msgTime right"> '+n.addtime+' </div>'+
+							'<a data-fakeid="'+n.fakeid+'" href="" class="msgSender left">'+n.nickname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;'+n.province+'&nbsp;&nbsp;'+n.city+'('+n.weixin_name+')</span>';
+							
+							if(n.replyed==1){
+							  str+='<span style="color:green;font-size: 12px;">&nbsp;&nbsp;已回复</span>';	
+							}
+							
+							str+=''+											
+							'<span data-fakeid="'+n.fakeid+'" class="remarkName left"></span>'+
+							'<div class="wxMsg clr"> '+n.content+' </div>'+
+						'</div>';
+						str+='<div class="clr"></div>'+
+						   '<div class="replyList" id="replyList'+n.id+'">'+
+						   '<ul>';
+						   
+						   $(n.replylist).each(function(j,m){
+                              str+= '<li class="msgListItem buddyRichInfoC " style="z-index: 99999; padding-left:0px;padding-right:0px;border:none;"><a class="msgSender left" href=""> <img width="48" height="48" class="avatar left" src=""> </a>'+
+						'<div class="wxMsgArea">'+
+							'<div class="opt oper right"></div>'+
+							'<div class="opt msgTime right"> '+m.addtime+' </div>'+
+							'<a href="" class="msgSender left">'+m.fullname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;</span>';
+														
+							str+=''+											
+							'<div class="wxMsg clr"> '+m.content+' </div>'+
+						'</div></li>';
+						   });
+						
+						   str+='</ul>'+						   
+						   '</div>';
+						str+='<div class="clr"></div>'+
+						'<div class="quickReplyBox" id="quickReplyBox'+n.id+'">'+
+							'<div class="cLine c-b">快速回复:</div>'+
+							'<div class="cLine">'+
+								'<textarea class="quickReplyTxt"></textarea>'+
+							'</div>'+
+							'<div class="cLine">'+
+								'<button class="btnGreenS quickReplyOK">发送</button>'+
+								'<a href="javascript:;" class="quickReplyPickup">收起</a> </div>'+
+						'</div>'+
+					'</li>';
+
+
+					  
+		         });	
+		        $('#listContainer').html(str);
+				$('#list_page').val(json.page);
+				$('#list_pagenum').val(json.pagenum);
+				$('.pageNum').html('&nbsp;&nbsp;'+json.page+'&nbsp;/&nbsp;'+json.pagenum+'&nbsp;&nbsp;');
+			   
+			    $('.iconReply').click(function(){
+						id=$(this).attr('data-id');
+						$('#quickReplyBox'+id).toggle(); 
+						$('#replyList'+id).toggle(); 
+				});
+				
+				$('.quickReplyPickup').click(function(){
+					$(this).parents('.quickReplyBox').hide();
+					$(this).parents('.replyList').hide();
+
+				});
+				
+				$('.quickReplyOK').click(function(){
+					question_id=$(this).parents('li').attr('data-id');
+					content=$('#quickReplyBox'+question_id+' .quickReplyTxt').val();
+					$.post('wx_message.php',{ac:'send_msg',question_id:question_id,content:content},function(d){
+						alert('回复成功');
+						$('#quickReplyBox'+question_id+' .quickReplyTxt').val('');
+				    });
+				});
+				
+	         }else{
+		        $('#listContainer').html('');
+				$('#list_page').val(json.page);
+				$('#list_pagenum').val(json.pagenum);
+				$('.pageNum').html('&nbsp;&nbsp;'+json.page+'&nbsp;/&nbsp;'+json.pagenum+'&nbsp;&nbsp;');
+			 }
+         }});
+	  }//end function	
+	  
+   function convertArray(o) { 
+         var v = {};
+         for (var i in o) {
+         if (typeof (v[o[i].name]) == 'undefined') v[o[i].name] = o[i].value;
+         else v[o[i].name] += "," + o[i].value;
+         }
+         return v;
+   } 	  			 
+				 </script>
+
+
+</body>
+</html>

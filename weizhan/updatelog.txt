@@ -1,0 +1,10 @@
+2014.1.16 V0.3.1
+删除多余文件
+修改
+common.php
+root.htaccess 以支持REST方式
+config.php
+
+增加文件:
+source  --  class_rest.php
+source  --  function_weizhan.php

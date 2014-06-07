@@ -1,0 +1,2 @@
+<?PHP exit;?>	2014-06-05 20:47:02		123.138.78.170	1	/weixiao/member.php	(smtp.qq.com:25) USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28
+<?PHP exit;?>	2014-06-05 22:31:19		42.202.1.243	1	/member.php	(smtp.qq.com:25) USERNAME - 530 Error: A secure connection is requiered(such as ssl). More information at http://service.mail.qq.com/cgi-bin/help?id=28

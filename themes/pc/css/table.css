@@ -1,0 +1,210 @@
+﻿TABLE.ListProduct {
+    border-top: 1px solid #D3D3D3;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 100%;
+}
+TABLE.ListProduct THEAD TH {
+    background-color: #F1F1F1;
+    border-bottom: 1px solid #D3D3D3;
+    border-right: 1px solid #DDDDDD;
+    border-top: 1px solid #E3E3E3;
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+}
+TABLE.ListProduct TBODY TD {
+    border-bottom: 1px solid #EEEEEE;
+    border-right: 1px solid #EEEEEE;
+    font-size: 12px;
+    padding: 10px 5px;
+    word-break: break-all;
+}
+TABLE.ListProduct TBODY TR:nth-child(2n+1) {
+    background-color: #FCFCFC;
+}
+TABLE.ListProduct TBODY TR:hover {
+    background-color: #F1FCEA;
+}
+TABLE.ListProduct TBODY TD p {
+    font-size: 12px;
+    padding: 0;
+    word-break: break-all;
+}
+TABLE.ListProduct Tfoot TD {
+    background-color: #F9F9F9;
+    border-bottom: 1px solid #EEEEEE;
+    border-right: 1px solid #EEEEEE;
+    font-size: 12px;
+    padding: 10px 5px;
+    word-break: break-all;
+}
+TABLE.ListProduct THEAD TH.norightborder {
+    border-right: 0 none;
+}
+TABLE.ListProduct TBODY TD.norightborder {
+    border-right: 0 none;
+}
+TABLE.ListProduct .select {
+    width: 30px;
+}
+TABLE.ListProduct .keywords {
+    width: 150px;
+}
+TABLE.ListProduct .answer {
+    width: 375px;
+}
+TABLE.ListProduct .answer_text {
+    height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 360px;
+}
+TABLE.ListProduct .category {
+    width: 70px;
+}
+TABLE.ListProduct .time {
+    width: 70px;
+}
+TABLE.ListProduct .edit {
+    width: 120px;
+}
+.msgWrap fieldset {
+    background-color: #F8F8F8;
+    border-radius: 0 5px 5px 5px;
+    margin-top: 10px;
+}
+.msgWrap fieldset label img {
+    margin-bottom: 10px;
+}
+.msgWrap fieldset legend {
+    background-color: #F8F8F8;
+    border-radius: 5px 5px 0 0;
+    color: #C18E06;
+    display: block;
+    font-size: 14px;
+    margin: 0 0 0 -1px;
+    padding: 10px 20px 10px 10px;
+}
+TABLE.ListProduct8 {
+    border-collapse: collapse;
+    border-top: 0 solid #D3D3D3;
+    width: 100%;
+}
+TABLE.ListProduct8 THEAD TH {
+    background-color: #F2FCE6;
+    border-bottom: 3px solid #4DA94C;
+    border-right: 1px solid #B4DEBB;
+    border-top: 1px solid #FFFFFF;
+    color: #666666;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+}
+TABLE.ListProduct8 TBODY TD {
+    border-bottom: 1px solid #EEEEEE;
+    border-right: 1px solid #DDDDDD;
+    color: #666666;
+    font-size: 12px;
+    padding: 2px;
+    text-align: center;
+}
+TABLE.ListProduct8 TBODY TD.norightborder, TABLE.ListProduct8 THEAD TH.norightborder {
+    border-right: 0 none;
+}
+TABLE.ListProduct8 td.lefttitle, TABLE.ListProduct8 th.lefttitle {
+    border-left: 0 none;
+    color: #333333;
+    text-align: left !important;
+    vertical-align: middle;
+}
+TABLE.ListProduct8 th.lefttitle {
+    background-color: #FFFFFF;
+    background-image: none;
+    border-bottom: 3px solid #4DA94C;
+    color: #333333;
+    padding: 10px 0;
+    text-align: left !important;
+    vertical-align: middle;
+}
+TABLE.ListProduct8 td .price {
+    color: #52A405;
+    font: 30px Georgia,Microsoft YaHei,Times,serif;
+    letter-spacing: -2px;
+}
+TABLE.ListProduct8 td .price p {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+table.ListProduct8 td.checked {
+    background-image: url("../images/checkbox.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+table.ListProduct8 td.error {
+    background-image: url("../images/error.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+table.ListProduct8 TBODY TR:nth-child(2n+1) {
+    background-color: #F8F8F8;
+}
+table.ListProduct8 TBODY TR:hover {
+    background-color: #F1FCEA;
+}
+
+
+.appTitle h2 {
+    float: left;
+}
+.normalTitle h2, .panelTitle h2, .processTitle h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+.normalTitle {
+    border-bottom: 1px solid #D7DDE6;
+    border-radius: 10px 10px 0 0;
+    padding: 20px 40px;
+    text-shadow: 0 1px 1px #FFFFFF;
+}
+.normalTitle2 {
+	background: none repeat scroll 0 0 #F5F6F7;
+    border-bottom: 1px solid #D7DDE6;
+    padding: 10px 20px;
+    text-shadow: 0 1px 1px #FFFFFF;
+}
+
+.vipuser {
+    float: left;
+    overflow: hidden;
+    width: 300px;
+}
+.vipuser .logo {
+    display: inline;
+    float: left;
+    height: 42px;
+    margin: 3px 10px 5px 0;
+    overflow: hidden;
+    position: relative;
+    width: 42px;
+}
+.vipuser .logo img {
+    height: 42px;
+    width: 42px;
+}
+.vipuser #nickname {
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap !important;
+}
+
+.node {
+    background: url("../images/bg_repno.gif") no-repeat scroll -240px -550px transparent;
+    padding-left: 55px;
+}
