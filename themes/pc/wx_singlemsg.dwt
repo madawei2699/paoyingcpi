@@ -8,7 +8,7 @@
 <script type="text/javascript" src="{$template_path}/script/utils.min.js"></script>
 </head>
 <style>
-.msgListItem .replyList {
+.msgListItem .quickReplyBox {
     display: none;
     margin-top: 10px;
 }
@@ -157,11 +157,11 @@
 						   '<ul>';
 						   
 						   $(n.replylist).each(function(j,m){
-                              str+= '<li class="msgListItem buddyRichInfoC " style="z-index: 99999; padding-left:0px;padding-right:0px;border:none;"><a class="msgSender left" href=""> <img width="48" height="48" class="avatar left" src=""> </a>'+
+                              str+= '<li class="msgListItem buddyRichInfoC " style="z-index: 99999; padding-left:0px;padding-right:0px;border:none;border-style: dotted;"><a class="msgSender left" href=""> <img width="48" height="48" class="avatar left" src="'+m.headimg+'"> </a>'+
 						'<div class="wxMsgArea">'+
 							'<div class="opt oper right"></div>'+
 							'<div class="opt msgTime right"> '+m.addtime+' </div>'+
-							'<a href="" class="msgSender left">'+m.fullname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;</span>';
+							'<a href="" class="msgSender left">'+m.nickname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;</span>';
 														
 							str+=''+											
 							'<div class="wxMsg clr"> '+m.content+' </div>'+
@@ -193,12 +193,12 @@
 			    $('.iconReply').click(function(){
 						id=$(this).attr('data-id');
 						$('#quickReplyBox'+id).toggle(); 
-						$('#replyList'+id).toggle(); 
+						// $('#replyList'+id).toggle(); 
 				});
 				
 				$('.quickReplyPickup').click(function(){
 					$(this).parents('.quickReplyBox').hide();
-					$(this).parents('.replyList').hide();
+					// $(this).parents('.replyList').hide();
 
 				});
 				

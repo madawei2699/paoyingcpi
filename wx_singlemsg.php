@@ -45,14 +45,25 @@ $list = $_SGLOBAL['db']->getall($sql);
 
 foreach($list as $k=>$v)
 {
-	$list[$k]['headimg']=$_SC['img_url'].'/weixin_headimg/'.$v['fakeid'].'.png';
+	$user_headimg='/uploads/weixin_headimg/'.$v['fakeid'].'.png';
+	if(file_exists(S_ROOT.'.'.$user_headimg)){
+		$list[$k]['headimg']=$user_headimg;
+	}else{
+		$list[$k]['headimg']='/uploads/weixin_headimg/default.png';
+	}
 	$list[$k]['weixin_name']=$_SGLOBAL['db']->getone('select weixin_name from '.tname('open_member_weixin').' where id='.$v['op_wxid']);
-	$list[$k]['replylist']=$_SGLOBAL['db']->getall('select * from '.tname('weixin_reply').' as r left join '.tname('member').' as m on r.uid=m.uid where r.question_id='.$v['id']);
+	$list[$k]['replylist']=$_SGLOBAL['db']->getall('select r.content,r.addtime,w.nickname,w.fakeid from '.tname('weixin_reply').' as r left join '.tname('open_member_user').' as o on r.uid=o.uid left join '.tname('weixin_member').' as w on o.weixin_fakeid=w.fakeid where r.question_id='.$v['id']);
 	foreach($list[$k]['replylist'] as $key=>$value){
-	  if($list[$k]['replylist'][$key]['uid']==0){
-		  $list[$k]['replylist'][$key]['fullname']=$list[$k]['weixin_name'];
-	  }
-	  $list[$k]['replylist'][$key]['addtime']=sgmdate("Y-m-d H:i:s",$list[$k]['replylist'][$key]['addtime']);
+		if($list[$k]['replylist'][$key]['uid']==0){
+		$list[$k]['replylist'][$key]['fullname']=$list[$k]['weixin_name'];
+		}
+		$kf_headimg='/uploads/weixin_headimg/'.$list[$k]['replylist'][$key]['fakeid'].'.png';
+		if(file_exists(S_ROOT.'.'.$kf_headimg)){
+			$list[$k]['replylist'][$key]['headimg']=$kf_headimg;
+		}else{
+			$list[$k]['replylist'][$key]['headimg']=$_SC['img_url'].'/weixin_headimg/default.png';
+		}
+		$list[$k]['replylist'][$key]['addtime']=sgmdate("Y-m-d H:i:s",$list[$k]['replylist'][$key]['addtime']);
 	}
 	$list[$k]['addtime']=sgmdate("Y-m-d H:i:s",$list[$k]['addtime']);
 }

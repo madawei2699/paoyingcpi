@@ -67,7 +67,12 @@ $list = $_SGLOBAL['db']->getall($sql);
 
 foreach($list as $k=>$v)
 {
-	$list[$k]['headimg']='/uploads/weixin_headimg/'.$v['fakeid'].'.png';
+	$img_path='/uploads/weixin_headimg/'.$v['fakeid'].'.png';
+	if(file_exists(S_ROOT.'.'.$img_path)){
+		$list[$k]['headimg']=$img_path;	
+	}else{
+		$list[$k]['headimg']='/uploads/weixin_headimg/default.png';
+	}
 	$list[$k]['weixin_name']=$_SGLOBAL['db']->getone('select weixin_name from '.tname('open_member_weixin').' where id='.$v['op_wxid']);
 	$list[$k]['addtime']=sgmdate("Y-m-d H:i:s",$list[$k]['addtime']);
 }

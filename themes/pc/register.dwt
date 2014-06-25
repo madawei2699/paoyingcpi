@@ -15,7 +15,7 @@
 <div class="wrapper">         
 <img src="{$template_path}/images/logo.png" onclick="javascript:location.href='/'" alt="{$_SC.site_name}">         
 <span class="hd_login_info">                
-<a href="mailto:service@sylai.com">咨询请发邮件至：service@sylai.com</a>            
+<a href="mailto:service@sylai.com">咨询请发邮件至：system@paoyingcpi.com</a>            
 </span>      
 </div>     
 </div>     

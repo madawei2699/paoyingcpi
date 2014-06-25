@@ -9,9 +9,11 @@
 <body>
 <div id="header">
   <div class="wrapper">
-    <a href="/" class="dib"><img src="{$template_path}/images/logo.png"/></a>
+    <a href="/" class="dib">
+      <img src="{$template_path}/images/logo.png"/>
+    </a>
     <span class="hd_login_info">
-    <span></span><a href="register.php">立即注册</a>&nbsp;&nbsp;
+    <!-- <span></span><a href="register.php">立即注册</a>&nbsp;&nbsp; -->
     </span>
   </div>
 </div>
@@ -65,7 +67,7 @@
 </div>
     </div>
     <dl class="qrcode-panel">
-      <dt><img src="{$template_path}/images/qrcode_for_gh_8b34f94aeb41_430.jpg" width="150px" /></dt>
+      <dt><img src="{$template_path}/images/qrcode_for_gh_cfd3cf204533_430.jpg" width="150px" /></dt>
       <dd style="font-size:12px">
         微信扫描<br/>
        关注我们      </dd>

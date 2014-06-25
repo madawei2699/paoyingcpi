@@ -42,9 +42,22 @@ class Basic_Module_Processor extends WX_Module_Processor {
 	protected function keyword_autoback($keyword=''){
 	               global $_SGLOBAL,$_SC,$wx;
 				   $op_wxid=$wx->weixin['op_wxid'];
+				   $from_user=$wx->message['from'];
 				   $resultStr='';
 				   if($keyword==''){
 					 return false;   
+				   }
+				   //销魂宝二期风险测评
+				   if($keyword=='m_xhbeq'){
+				   		$survey_url="http://jferic.com/weixin/survey2.php?from_user='$from_user'";
+                        $record=array(
+                                'title' =>'跑赢CPI[销魂宝二期]风险测评',
+                                'description' =>'请根据个人真实情况回答。通过测试是成为销魂宝会员的必要条件。',
+                                'picUrl' => 'http://jferic.com/weixin/img/survey2.jpg',
+                                'content' =>$survey_url
+                        );
+                        $resultStr = $this->resp_news($record);
+                        return $resultStr;
 				   }
 				   
 				   $autoreply_list=$_SGLOBAL['db']->getall('select * from '.tname('open_member_weixin_autoreply').' where state=1 and op_wxid="'.$op_wxid.'" and type="keyword"');

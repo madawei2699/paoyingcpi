@@ -145,28 +145,18 @@
 										<div class="msg-editer">
 											<label for="" class="block">标题</label>
 											<input class="msg-input" id="title" value="" type="text">
-											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面</label>
-											 <div class="cover-area">
-                                                 <div class="oh z cover-hd">
-                                                       <a  href="#inline_content" class="icon28C upload-btn">上传</a>
-                                                 </div>
-                                               </div> 
-											 <input class="msg-input" id="pic" type="hidden">
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面地址</label>
+											<input class="msg-input" id="s_pic" value="" type="text">											
 											<a id="desc-block-link" style="padding-top: 10px;" href="javascript:(function(){jQuery('#desc-block').show();jQuery('#desc-block-link').hide()})()" class="url-link block">添加摘要</a>
 											<div style="display: none;" id="desc-block" class="none">
 												<label class="block">摘要</label>
 												<textarea name="" id="desc" class="msg-txta"></textarea>
 											</div>
-											<label for="" class="block">正文</label>
-											<textarea name="content" id="myEditor1" style="height:300px;"></textarea>
+											<label for="" class="block">正文地址</label>
+											<input class="msg-input" id="s_content" value="" type="text">	
 											
-											
-											
-											<a id="url-block-link" style="padding-top: 10px;" href="javascript:(function(){jQuery('#singlenews #url-block').show();jQuery('#singlenews #url-block-link').hide()})()" class="url-link block">添加跳转链接</a>
-											<div style="display: none;" id="url-block" class="none">
-												<label for="" class="block">跳转链接</label>
-												<input class="msg-input" id="url" value="" type="text">
-											</div>
+																			
+										
 										</div>
 										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
 										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
@@ -223,22 +213,13 @@
 										<div class="msg-editer">
 											<label for="" class="block">标题</label>
 											<input class="msg-input" id="title" type="text">
-											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面</label>                                     
-											 <div class="cover-area">
-                                                 <div class="oh z cover-hd">
-                                                       <a  href="#inline_content" class="icon28C upload-btn">上传</a>
-                                                 </div>
-                                               </div> 
-											 <input class="msg-input" id="pic" type="hidden">
-											<label for="" class="block">正文</label>
-											<textarea name="content" id="myEditor2" style="height:300px;"></textarea>
+											<label for="" class="block"><span id="upload-tip" class="upload-tip r">大图片建议尺寸：720像素 * 400像素</span>封面地址</label>                                     
+											<input class="msg-input" id="m_pic" type="text"> 
+											<label for="" class="block">正文地址</label>
+											<input class="msg-input" id="m_content" type="text"> 
 											
 											
-											<a id="url-block-link" style="padding-top: 10px;" href="javascript:(function(){jQuery('#multinews #url-block').show();jQuery('#multinews #url-block-link').hide()})()" class="url-link block">添加跳转链接</a>
-											<div style="display: none;" id="url-block" class="none">
-												<label for="" class="block">跳转链接</label>
-												<input class="msg-input" id="url" type="text">
-											</div>
+											
 										</div>
 										<div class="oh z shadow"> <span class="left ls"></span><span class="right rs"></span> </div>
 										<span style="margin-top: 0px;" class="abs msg-arrow a-out"></span> <span style="margin-top: 0px;" class="abs msg-arrow a-in"></span> </div>
@@ -342,9 +323,7 @@ $(function(){
 	var s_pic;
 	var s_content;
 	var s_desc;
-	
-	var editor1 = new UE.ui.Editor();
-    editor1.render('myEditor1');
+
 
     //读取现有数据
 		 
@@ -356,16 +335,10 @@ $(function(){
             
 	         $('#singlenews #msgEditArea #title').val(s_title);
 	         $('#singlenews #msgEditArea #desc').val(s_desc);
-			 if(s_content){
-				  editor1.ready(function(){
-                        editor1.setContent(s_content);
-                  });
-	         }
-	         $('#singlenews #msgEditArea #pic').val(s_pic);
+			 $('#singlenews #msgEditArea #s_content').val(s_content);
+	         $('#singlenews #msgEditArea #s_pic').val(s_pic);
 	         $('#singlenews #msgEditArea #url').val(s_url);
 	//end读取现有数据
-
-
    $('#singlenews #msgEditArea #title').live('keyup',function(){
 	  $('#singlenews .appmsgItem .i-title').html($(this).val());
 	  s_title=$(this).val();
@@ -375,18 +348,17 @@ $(function(){
 	  $('#singlenews .appmsgItem .i-desc').html($(this).val());
 	  s_desc=$(this).val();
    });
-
-
-   editor1.addListener('selectionchange',function(){
-      s_content=editor1.getContent();
-   });
-
    
-   $('#singlenews #msgEditArea #pic').live('blur',function(){
+   $('#singlenews #msgEditArea #s_pic').live('blur',function(){
 	    $('#singlenews .appmsgItem .i-img').attr('src',$(this).val());
 		$('#singlenews .appmsgItem .i-img').show();
 	    $('#singlenews .appmsgItem .default-tip').hide();
 	    s_pic=$(this).val();
+   });
+
+   $('#singlenews #msgEditArea #s_content').live('keyup',function(){
+	  $('#singlenews .appmsgItem .i-content').html($(this).val());
+	  s_content=$(this).val();
    });
 
    $('#singlenews #msgEditArea #url').live('blur',function(){
@@ -435,8 +407,6 @@ $(function(){
 	var pic=new Array();   //图片链接
 	var content=new Array();  //正文
 		
-    var editor2 = new UE.ui.Editor();
-    editor2.render('myEditor2');	
 
     //读取现有数据
 		 $('#multinews .appmsgItem').each(function(i,n){
@@ -450,18 +420,14 @@ $(function(){
 			 if(i==0){
 	                   if(title[r_id]) $('#multinews #msgEditArea #title').val(title[current_rid]);
                        if(content[r_id]){
-						   editor2.ready(function(){
-                                  editor2.setContent(content[r_id]);
-                           });
+                           $('#multinews #msgEditArea #m_content').val(content[r_id]);
 	                   }
-	                   $('#multinews #msgEditArea #pic').val(pic[r_id]);
+	                   $('#multinews #msgEditArea #m_pic').val(pic[r_id]);
 	                   $('#multinews #msgEditArea #url').val(url[r_id]);
 			 }
 			 appmsgitem_count=i+1;
 	     });	 	
 	//end读取现有数据
-
-
 	
 	var time=formatDate(new Date(), "yyyy-MM-dd");
     $('.msg-date').html(time);
@@ -502,7 +468,6 @@ $(function(){
 			  '       </ul>     </div>';
               $(str).insertBefore($(this));
 			}
-
    });
    
    $('.iconDel').live('click',function(){
@@ -526,18 +491,17 @@ $(function(){
 				n=i+1;
 			}
 	   });
-	   content[current_rid]=editor2.getContent();   	   
+	   //content[current_rid]=$('#multinews #msgEditArea #m_content').val();   	   
 	   current_rid=$(this).attr('data-rid');
 	   $('#multinews #msgEditArea #title').val('');
-	   $('#multinews #msgEditArea #pic').val('');
+	   $('#multinews #msgEditArea #m_pic').val('');
 	   $('#multinews #msgEditArea #url').val('');
+	   $('#multinews #msgEditArea #m_content').val('');
 	   if(title[current_rid]) $('#multinews #msgEditArea #title').val(title[current_rid]);
        if(content[current_rid]){
-		    editor2.setContent(content[current_rid]);
-	   }else{
-		    editor2.setContent('');
+		  	$('#multinews #msgEditArea #m_content').val(content[current_rid]);   
 	   }
-	   $('#multinews #msgEditArea #pic').val(pic[current_rid]);
+	   $('#multinews #msgEditArea #m_pic').val(pic[current_rid]);
 	   $('#multinews #msgEditArea #url').val(url[current_rid]);
 
 	   t=$('#multinews #appmsgItem'+$(this).attr('data-rid'));
@@ -551,17 +515,17 @@ $(function(){
 	  title[current_rid]=$(this).val();
    });
 
-
-   editor2.addListener('selectionchange',function(){
-      content[current_rid]=editor2.getContent();
-   });
-
    
-   $('#multinews #msgEditArea #pic').live('blur',function(){
+   $('#multinews #msgEditArea #m_pic').live('blur',function(){
 	    $('#multinews #appmsgItem'+current_rid+' .i-img').attr('src',$(this).val());
 		$('#multinews #appmsgItem'+current_rid+' .i-img').show();
 	    $('#multinews #appmsgItem'+current_rid+' .default-tip').hide();
 	     pic[current_rid]=$(this).val();
+   });
+
+   $('#multinews #msgEditArea #m_content').live('keyup',function(){
+	  $('#multinews #appmsgItem'+current_rid+' .i-content').html($(this).val());
+	  content[current_rid]=$(this).val();
    });
 
    $('#multinews #msgEditArea #url').live('blur',function(){

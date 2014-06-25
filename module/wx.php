@@ -457,7 +457,7 @@ abstract class WX_Module_Processor {
 				'Title' => $row['title'],
 				'Description' => $row['description'],
 				'PicUrl' => $row['picurl'],
-				'Url' => $row['url'],
+				'Url' => $row['content'],
 				'TagName' => 'item',
 			);
 		}

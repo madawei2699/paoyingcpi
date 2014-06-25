@@ -51,11 +51,11 @@ if(submitcheck('_submit')) {
 
 			   //加入验证文字
 			   $reg_msg='欢迎注册'.$_SC['site_name'].'。<br />请点击以下链接，完成'.$_SC['site_name'].'的注册：<br /><a href="'.$email_reg_url.'">点此链接</a> <br /> 或者复制以下字符串到浏览器地址栏：<br />'.$email_reg_url.' <br />
-如您有任何问题，请发邮件至 service@sylai.com或私信新浪微博账号： <a href="http://weibo.com/sylaicom">@乘亿科技</a> <br /><br /><br /><br /><br /><br />'.date("Y-m-d");
+如您有任何问题，请发邮件至 madw@paoyingcpi.com<br /><br /><br /><br /><br /><br />'.date("Y-m-d");
 				
 			   //发送验证邮件,请设置了邮件信息后再取消注释
-			   //include_once(S_ROOT.'./source/function_sendmail.php');
-			   //$email_result=sendmail($email,$_SC['sitename'].'注册确认',$reg_msg);
+			   include_once(S_ROOT.'./source/function_sendmail.php');
+			   $email_result=sendmail($email,$_SC['sitename'].'注册确认',$reg_msg);
 				
                showmessage('请登录您的邮箱完成注册!');
 			   gourl('index.php');	  

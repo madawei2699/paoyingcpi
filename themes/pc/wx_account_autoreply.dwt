@@ -76,7 +76,9 @@
 								</td>
 								<td> {$acc.url} </td>
 								<td> {$acc.reply_type_name} </td>
-								<td class="norightborder">&#12288;<a  class="btnGreen" href="wx_account_autoreply.php?ac=edit&id={$acc.id}">编辑</a>&#12288;<a class="btnGray delbutton" data-id="{$acc.id}" href="javascript:;">删除</a></td>
+								<td class="norightborder">&#12288;
+									<a  class="btnGreen" href="wx_account_autoreply.php?ac=edit&id={$acc.id}">编辑</a>&#12288;
+									<a class="btnGray delbutton" data-id="{$acc.id}" href="javascript:;">删除</a></td>
 							</tr>
 							{/foreach}
 							
