@@ -660,6 +660,30 @@ class WX_Remote_Opera{
 		$arr=json_decode($html,true);
 		return $arr['contact_info'];				
 	}
+
+	public function getgroupinfo($fromfakeid){
+		$url="https://mp.weixin.qq.com/cgi-bin/getcontactinfo";
+		$ch=curl_init($url);
+		curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_COOKIEFILE,$this->cookieFile);
+		curl_setopt($ch,CURLOPT_REFERER,$url);	
+		curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0');
+		$post['ajax']='1';
+		$post['f']='json';
+		$post['lang']='zh_CN';
+		$post['t']='ajax-getcontactinfo';
+		$post['fakeid'] =$fromfakeid;
+		$post['token']=$this->token;
+		curl_setopt($ch,CURLOPT_POST,1);
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$post);
+		$html=curl_exec($ch);
+		curl_close($ch);
+		$arr=json_decode($html,true);
+		return $arr['groups']['groups'];				
+	}
 	
 	public function getheadimg($fromfakeid){
 		$url="https://mp.weixin.qq.com/misc/getheadimg";

@@ -59,6 +59,14 @@ class Basic_Module_Processor extends WX_Module_Processor {
                         $resultStr = $this->resp_news($record);
                         return $resultStr;
 				   }
+
+				   //删除用户信息<后门>
+				   if($keyword=='delete_me'){
+				   		$_SGLOBAL['db']->query("DELETE FROM ".tname("weixin_member")." WHERE wxid='$from_user'");
+				   		$content="DELETE SUCCESS!";
+    	                $resultStr = $this->resp_text($content);
+		                return $resultStr;
+				   }
 				   
 				   $autoreply_list=$_SGLOBAL['db']->getall('select * from '.tname('open_member_weixin_autoreply').' where state=1 and op_wxid="'.$op_wxid.'" and type="keyword"');
 				   $autoreply_id=0;
@@ -90,10 +98,24 @@ class Basic_Module_Processor extends WX_Module_Processor {
 					}else{
 						$query=$_SGLOBAL['db']->query('select * from '.tname('open_member_weixin_autoreply').' where id="'.$autoreply_id.'" and state=1');
 						if($autoreply=$_SGLOBAL['db']->fetch_array($query)){
+							//检查此分组用户是否具备此关键词权限
+							$query_groupid=$_SGLOBAL['db']->query('select group_id from '.tname('weixin_member').' where wxid="'.$from_user.'"');
+							if($g_rows=$_SGLOBAL['db']->fetch_array($query_groupid)){
+								if($g_rows['group_id']!=$autoreply['group_id']){
+									$content="销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！";
+									$resultStr = $this->resp_text($content);
+					             	return $resultStr;
+								}
+							}else{
+								$content="销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！";
+								$resultStr = $this->resp_text($content);
+				             	return $resultStr;
+							}
+							//权限检查结束
 							if($autoreply['reply_type']=='text'){
-					               $content=htmlspecialchars_decode($autoreply['content']);
-   			   					   $content=db_to_content(htmlspecialchars_decode($content));
-                	               $resultStr = $this->resp_text($content);
+					             $content=htmlspecialchars_decode($autoreply['content']);
+   			   					 $content=db_to_content(htmlspecialchars_decode($content));
+                	             $resultStr = $this->resp_text($content);
 					             return $resultStr;
 							}
 
@@ -174,7 +196,7 @@ class Basic_Module_Processor extends WX_Module_Processor {
 	}
 
 
-    //记录消息来源的用户资料,返回微笑微信中用户信息数组,包含[uid,province,nickname]
+    //记录消息来源的用户资料,返回微笑微信中用户信息数组,包含[uid,province,nickname,group_id]
     protected function save_weixin_member(){
 	  global $_SGLOBAL,$wx;
 	  $create_time=$wx->message['time'];
@@ -182,24 +204,30 @@ class Basic_Module_Processor extends WX_Module_Processor {
 	  $op_wxid=$wx->weixin['op_wxid'];
 	  if($wxid=='') return false;
 	  $return=false;
-	  $query=$_SGLOBAL['db']->query('select uid,fakeid,province,nickname from '.tname('weixin_member').' where op_wxid='.$op_wxid.' and wxid="'.$wxid.'"');
+	  $query=$_SGLOBAL['db']->query('select uid,fakeid,province,nickname,group_id from '.tname('weixin_member').' where op_wxid='.$op_wxid.' and wxid="'.$wxid.'"');
 	  $member=$_SGLOBAL['db']->fetch_array($query);
       $query=$_SGLOBAL['db']->query("select * from ".tname('open_member_weixin')." where id='".$op_wxid."'");
       if($op_wx=$_SGLOBAL['db']->fetch_array($query)){
          $ro = new WX_Remote_Opera();
          $token=$ro->init($op_wx['username'],$op_wx['password']);
 	     if(!$member){
-		    $msglist=$ro->getmsglist();
+		    $msglist=$ro->getmsglist();	
 		    foreach($msglist as $k=>$v){
 			    if($v['date_time']==$create_time){
-				  $contactinfo=$ro->getcontactinfo($v['fakeid']);
-				  $member['uid']=inserttable(tname('weixin_member'),array('op_wxid'=>$op_wxid,'wxid'=>$wxid,'fakeid'=>$v['fakeid'],'nickname'=>$contactinfo['nick_name'],'username'=>$contactinfo['user_name'],'country'=>$contactinfo['country'],'province'=>$contactinfo['province'],'city'=>$contactinfo['city'],'sex'=>$contactinfo['gender'],'create_time'=>$create_time),1);
-				  $member['fakeid']=$v['fakeid'];
-				  $member['province']=$contactinfo['province'];
-				  $member['nickname']=$contactinfo['nick_name'];
-		          //保存头像
-                  $ro->getheadimg($member['fakeid']);
-                  break;
+					$contactinfo=$ro->getcontactinfo($v['fakeid']);
+					$member['uid']=inserttable(tname('weixin_member'),array('op_wxid'=>$op_wxid,'group_id'=>$contactinfo['group_id'],'wxid'=>$wxid,'fakeid'=>$v['fakeid'],'nickname'=>$contactinfo['nick_name'],'username'=>$contactinfo['user_name'],'country'=>$contactinfo['country'],'province'=>$contactinfo['province'],'city'=>$contactinfo['city'],'sex'=>$contactinfo['gender'],'create_time'=>$create_time),1);
+					$member['fakeid']=$v['fakeid'];
+					$member['province']=$contactinfo['province'];
+					$member['nickname']=$contactinfo['nick_name'];
+					$member['group_id']=$contactinfo['group_id'];
+					//保存头像
+					$ro->getheadimg($member['fakeid']);
+					//保存最新分组信息
+					$grouplist=$ro->getgroupinfo($v['fakeid']);
+					foreach ($grouplist as $key => $value) {
+						inserttable("weixin_group",array('id'=>$value['id'],'name'=>$value['name'],'cnt'=>$value['cnt']));
+					}
+					break;
 			    }
 		    }
 	     }

@@ -69,7 +69,16 @@
 							关键词设：<input class="txt" type="text" value="" id="keyword" /><input type="radio" name="islike" value="0" checked  />完全匹配<input type="radio" name="islike" value="1"  />部分匹配(多个用空格分开)
 							<br />
 							优先级：<input class="txt" type="text" value="" id="priority" />
-							
+							<br />
+							分组权限: <select class=""  id="group_id" name="group_id">
+										{foreach item=ii from=$groups name=foo}
+											{if $smarty.foreach.foo.first}
+											<option value="{$ii.id}" selected>{$ii.name}</option>
+											{else}
+											<option value="{$ii.id}">{$ii.name}</option>
+											{/if}
+										{/foreach}
+									  </select>
 							</div>
 						<div class="clr"></div>
 					</div>
@@ -301,6 +310,7 @@ $(function(){
 		 data.content=$('#txtnews textarea').val();
 		 data.type=type;
 		 data.reply_type='text';
+		 data.group_id=$('#group_id').val();
 		 var msgitem=new Object();
 		 $.post('wx_account_autoreply.php',data,function(d){
 			 if(d.err==0){
@@ -372,6 +382,7 @@ $(function(){
          data.op_wxid=$('#op_wxid').val();
 		 data.keyword=$('#keyword').val();
 		 data.priority=$('#priority').val();
+		 data.group_id=$('#group_id').val();
 		 data.islike=$('input[name=islike]:checked').val();
 		 data.reply_type='single_news';
 		 data.type=type;
@@ -540,6 +551,7 @@ $(function(){
 		 data.priority=$('#priority').val();
 		 data.keyword=$('#keyword').val();
 		 data.islike=$('input[name=islike]:checked').val();
+		 data.group_id=$('#group_id').val();
 		 data.type=type;
 		 data.reply_type="multi_news";
 		 var msgitem=new Object();

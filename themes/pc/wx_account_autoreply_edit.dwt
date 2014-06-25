@@ -71,7 +71,16 @@
 							关键词设置：<input class="txt" type="text" value="{$account.autoreply.keyword}" id="keyword" /><input type="radio" name="islike" value="0" {if $account.autoreply.islike eq 0} checked {/if} />完全匹配<input type="radio" name="islike" value="1" {if $account.autoreply.islike eq 1} checked {/if} />部分匹配(多个用空格分开)
 							<br />
 							优先级：<input class="txt" type="text" value="{$account.autoreply.priority}" id="priority" />
-							
+							<br />
+							分组权限: <select class=""  id="group_id" name="group_id">
+										{foreach item=ii from=$groups name=foo}
+											{if $ii.id==$account.autoreply.group_id}
+											<option value="{$ii.id}" selected>{$ii.name}</option>
+											{else}
+											<option value="{$ii.id}">{$ii.name}</option>
+											{/if}
+										{/foreach}
+									  </select>
 						</div>
 						<div class="clr"></div>
 					</div>
@@ -331,6 +340,7 @@ $(function(){
          data.op_wxid=$('#op_wxid').val();
 		 data.priority=$('#priority').val();
 		 data.keyword=$('#keyword').val();
+		 data.group_id=$('#group_id').val();
 		 data.islike=$('input[name=islike]:checked').val();
 		 data.content=$('#txtnews textarea').val();
 		 data.type=type;
@@ -411,6 +421,7 @@ $(function(){
 		 data.id=$('#autoreply_id').val();
 		 data.priority=$('#priority').val();
 		 data.keyword=$('#keyword').val();
+		 data.group_id=$('#group_id').val();
 		 data.islike=$('input[name=islike]:checked').val();
 		 data.reply_type='single_news';
 		 data.type=type;
@@ -581,6 +592,7 @@ $(function(){
 		 data.id=$('#autoreply_id').val();
 		 data.priority=$('#priority').val();
 		 data.keyword=$('#keyword').val();
+		 data.group_id=$('#group_id').val();
 		 data.islike=$('input[name=islike]:checked').val();
 		 data.type=type;
 		 data.reply_type="multi_news";

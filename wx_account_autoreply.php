@@ -44,6 +44,9 @@ global $_SGLOBAL,$smarty,$_SC;
    }
    $smarty->assign('account',$account);
   }
+  if($groups=$_SGLOBAL['db']->getAll('select * from weixin_group')){
+  	$smarty->assign('groups',$groups);
+  }
   $smarty->display('wx_account_autoreply_add.dwt');	
 }
 
@@ -56,6 +59,7 @@ global $_SGLOBAL,$smarty,$_SC;
  $keyword=getstr($_POST['keyword']);
  $url=getstr($_POST['url']);
  $priority=intval($_POST['priority'])?intval($_POST['priority']):0;
+ $group_id=getstr($_POST['group_id']);
  $islike=intval($_POST['islike'])?intval($_POST['islike']):0;
 
  if($type=='keyword' && $keyword==''){
@@ -67,7 +71,7 @@ global $_SGLOBAL,$smarty,$_SC;
  switch($reply_type){
 	case "text":
 	  $content=getstr(strip_tags($_POST['content'],'<br>'));
-      inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'content'=>$content,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']));
+      inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'group_id'=>$group_id,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'content'=>$content,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']));
 	break;
 	case "single_news":
      $title=getstr($_POST['title']);	
@@ -75,11 +79,11 @@ global $_SGLOBAL,$smarty,$_SC;
      $content=getstr($_POST['content']);
      $pic=getstr($_POST['pic']);
      $url=getstr($_POST['url']);
-     $autoreply_id=inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']),1);
+     $autoreply_id=inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'group_id'=>$group_id,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']),1);
      inserttable(tname('open_member_weixin_autoreply_info'),array('autoreply_id'=>$autoreply_id,'title'=>$title,'summary'=>$desc,'content'=>$content,'pic'=>$pic,'url'=>$url,'sort_order'=>0,'addtime'=>$_SGLOBAL['timestamp']));
 	break;
 	case "multi_news":
-       $autoreply_id=inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']),1);
+       $autoreply_id=inserttable(tname('open_member_weixin_autoreply'),array('op_wxid'=>$op_wxid,'group_id'=>$group_id,'type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'addtime'=>$_SGLOBAL['timestamp'],'last_edit_time'=>$_SGLOBAL['timestamp']),1);
        $msgitem=json_decode($_POST['msgitem'],true);
        foreach($msgitem as $k=>$v){
           inserttable(tname('open_member_weixin_autoreply_info'),array('autoreply_id'=>$autoreply_id,'title'=>getstr($v['title']),'content'=>getstr($v['content']),'pic'=>getstr($v['pic']),'url'=>getstr($v['url']),'sort_order'=>($k+1),'addtime'=>$_SGLOBAL['timestamp']));	
@@ -135,6 +139,9 @@ global $_SGLOBAL,$smarty,$_SC;
      if($account['headimg']==''){
        $account['headimg']=$_SC['img_url'].'/weixin_headimg/'.$account['fakeid'].'.png';
      }
+     if($groups=$_SGLOBAL['db']->getAll('select * from weixin_group')){
+	  	$smarty->assign('groups',$groups);
+	  }
      $smarty->assign('account',$account);
   }
   $smarty->display('wx_account_autoreply_edit.dwt');
@@ -150,6 +157,7 @@ global $_SGLOBAL,$smarty,$_SC;
 
  $type=getstr($_POST['type']);
  $reply_type=getstr($_POST['reply_type']);
+ $group_id=getstr($_POST['group_id']);
  $keyword=getstr($_POST['keyword']);
  $url=getstr($_POST['url']);
  $priority=intval($_POST['priority'])?intval($_POST['priority']):0;
@@ -164,7 +172,7 @@ global $_SGLOBAL,$smarty,$_SC;
  switch($reply_type){
 	case "text":
 	  $content=getstr(strip_tags($_POST['content'],'<br>'));
-      updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'content'=>$content,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
+      updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'group_id'=>$group_id,'keyword'=>$keyword,'content'=>$content,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
 	  updatetable(tname('open_member_weixin_autoreply_info'),array('state'=>-1),array('autoreply_id'=>$autoreply_id));
 	break;
 	case "single_news":
@@ -173,12 +181,12 @@ global $_SGLOBAL,$smarty,$_SC;
      $content=getstr($_POST['content']);
      $pic=getstr($_POST['pic']);
      $url=getstr($_POST['url']);
-     updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
+     updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'group_id'=>$group_id,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
 	 updatetable(tname('open_member_weixin_autoreply_info'),array('state'=>-1),array('autoreply_id'=>$autoreply_id));
      inserttable(tname('open_member_weixin_autoreply_info'),array('autoreply_id'=>$autoreply_id,'title'=>$title,'summary'=>$desc,'content'=>$content,'pic'=>$pic,'url'=>$url,'sort_order'=>0,'addtime'=>$_SGLOBAL['timestamp']));
 	break;
 	case "multi_news":
-       updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
+       updatetable(tname('open_member_weixin_autoreply'),array('type'=>$type,'reply_type'=>$reply_type,'group_id'=>$group_id,'keyword'=>$keyword,'islike'=>$islike,'priority'=>$priority,'state'=>1,'last_edit_time'=>$_SGLOBAL['timestamp']),array('id'=>$autoreply_id));
 	   updatetable(tname('open_member_weixin_autoreply_info'),array('state'=>-1),array('autoreply_id'=>$autoreply_id));
        $msgitem=json_decode($_POST['msgitem'],true);
        foreach($msgitem as $k=>$v){
