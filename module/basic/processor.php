@@ -101,13 +101,16 @@ class Basic_Module_Processor extends WX_Module_Processor {
 							//检查此分组用户是否具备此关键词权限
 							$query_groupid=$_SGLOBAL['db']->query('select group_id from '.tname('weixin_member').' where wxid="'.$from_user.'"');
 							if($g_rows=$_SGLOBAL['db']->fetch_array($query_groupid)){
-								if($g_rows['group_id']!=$autoreply['group_id']){
-									$content="销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！";
-									$resultStr = $this->resp_text($content);
-					             	return $resultStr;
+								//如果关键词未设置权限，则放行
+								if ($autoreply['group_id']!=-1) {
+									if($g_rows['group_id']!=$autoreply['group_id']){
+										$content='销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！';
+										$resultStr = $this->resp_text($content);
+					             		return $resultStr;
+									}
 								}
 							}else{
-								$content="销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！";
+								$content='未查询到您的权限，请回复任何一句话给系统来更新权限！';
 								$resultStr = $this->resp_text($content);
 				             	return $resultStr;
 							}
