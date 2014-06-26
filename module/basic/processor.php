@@ -104,7 +104,9 @@ class Basic_Module_Processor extends WX_Module_Processor {
 								//如果关键词未设置权限，则放行
 								if ($autoreply['group_id']!=-1) {
 									if($g_rows['group_id']!=$autoreply['group_id']){
-										$content='销魂宝会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单来获取最新文章！';
+										$q_group_name=$_SGLOBAL['db']->query('select * from weixin_group where id="'.$autoreply['group_id'].'"');
+										$q_group_rows=$_SGLOBAL['db']->fetch_array($q_group_name);
+										$content=$q_group_rows['name'].'会员只需要给系统回复"delete_me",不含双引号，然后再给系统回复任意一句话即可使用此菜单！';
 										$resultStr = $this->resp_text($content);
 					             		return $resultStr;
 									}
