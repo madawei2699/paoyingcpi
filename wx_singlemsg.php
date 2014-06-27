@@ -52,6 +52,7 @@ foreach($list as $k=>$v)
 		$list[$k]['headimg']='/uploads/weixin_headimg/default.png';
 	}
 	$list[$k]['weixin_name']=$_SGLOBAL['db']->getone('select weixin_name from '.tname('open_member_weixin').' where id='.$v['op_wxid']);
+	$list[$k]['group_name']=$_SGLOBAL['db']->getone('select name from weixin_group where id='.$v['group_id']);
 	$list[$k]['replylist']=$_SGLOBAL['db']->getall('select r.content,r.addtime,w.nickname,w.fakeid from '.tname('weixin_reply').' as r left join '.tname('open_member_user').' as o on r.uid=o.uid left join '.tname('weixin_member').' as w on o.weixin_fakeid=w.fakeid where r.question_id='.$v['id']);
 	foreach($list[$k]['replylist'] as $key=>$value){
 		if($list[$k]['replylist'][$key]['uid']==0){

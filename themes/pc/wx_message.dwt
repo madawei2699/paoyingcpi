@@ -151,7 +151,7 @@
 						'<div class="wxMsgArea">'+
 							'<div class="opt oper right"> <a title="快捷回复" class="icon18 iconReply" data-tofakeid="'+n.fakeid+'" data-id="'+n.id+'" href="javascript:;"></a> </div>'+
 							'<div class="opt msgTime right"> '+n.addtime+' </div>'+
-							'<a data-fakeid="'+n.fakeid+'" target="_blank" href="wx_singlemsg.php?wxid='+n.wxid+'" class="msgSender left">'+n.nickname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;'+n.province+'&nbsp;&nbsp;'+n.city+'('+n.weixin_name+')</span>';
+							'<a data-fakeid="'+n.fakeid+'" target="_blank" href="wx_singlemsg.php?wxid='+n.wxid+'" class="msgSender left">'+n.nickname+'</a><span style="color:#AAAAAA;font-size: 12px;">&nbsp;&nbsp;'+n.group_name+'&nbsp;&nbsp;'+n.province+'&nbsp;&nbsp;'+n.city+'('+n.weixin_name+')</span>';
 							
 							if(n.replyed==1){
 							  str+='<span style="color:green;font-size: 12px;">&nbsp;&nbsp;已回复</span>';	

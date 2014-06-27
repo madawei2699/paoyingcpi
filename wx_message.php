@@ -75,6 +75,7 @@ foreach($list as $k=>$v)
 	}
 	$list[$k]['weixin_name']=$_SGLOBAL['db']->getone('select weixin_name from '.tname('open_member_weixin').' where id='.$v['op_wxid']);
 	$list[$k]['addtime']=sgmdate("Y-m-d H:i:s",$list[$k]['addtime']);
+	$list[$k]['group_name']=$_SGLOBAL['db']->getone('select name from weixin_group where id='.$v['group_id']);
 }
 $arr=array(
 "pagesize"=>$pagesize,

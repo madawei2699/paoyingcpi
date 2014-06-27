@@ -999,7 +999,7 @@ class wechatCallbackapiTest
 
 
     //将接收的微信提问，通过推送号发送给成员微信号
-    protected function send_to_member($msg,$question_id='',$province='',$nickname='',$to_uid=0,$op_wx=array()){
+    protected function send_to_member($msg,$question_id='',$province='',$nickname='',$to_uid=0,$group_name='',$op_wx=array()){
 	  global $_SGLOBAL;
 	  $return=false;
       
@@ -1011,7 +1011,7 @@ class wechatCallbackapiTest
 	  }
 	  
 	  $count=0;
-	  $newmsg=$this->question_tpl($msg,$question_id,$province,$nickname);
+	  $newmsg=$this->question_tpl($msg,$question_id,$province,$nickname,$group_name);
 	  $query=$_SGLOBAL['db']->query("select * from ".tname('open_member_weixin')." where id=".$this->op_wxid);
       $op_wx=$_SGLOBAL['db']->fetch_array($query);
 	  
@@ -1047,11 +1047,11 @@ class wechatCallbackapiTest
     }
 
    //问题上下文模板
-   protected function question_tpl($msg,$question_id='',$province='',$nickname='',$op_wx=array()){
+   protected function question_tpl($msg,$question_id='',$province='',$nickname='',$group_name='',$op_wx=array()){
 	 global $_SGLOBAL;
 	  $query=$_SGLOBAL['db']->query("select * from ".tname('open_member_weixin')." where id=".$this->op_wxid);
       $op_wx=$_SGLOBAL['db']->fetch_array($query);
-	 $newmsg='['.$op_wx['weixin_name'].']来自'.$province.'的'.$nickname.'提问： '.chr(10).$msg.chr(10).chr(10).'  (回复格式: '.$question_id.'#内容)';	  
+	 $newmsg='['.$op_wx['weixin_name'].']来自'.$province.'的'.$nickname.'['.$group_name.']'.'提问： '.chr(10).$msg.chr(10).chr(10).'  (回复格式: '.$question_id.'#内容)';	  
      return $newmsg; 
    }	
 
